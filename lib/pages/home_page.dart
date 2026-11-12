@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../models/destination.dart';
 import '../services/api_service.dart';
+import '../screens/profile_screen.dart'; // <-- Pastikan jalur import ini benar
 import 'booking_page.dart';
 import 'destination_detail_page.dart';
 
@@ -122,18 +123,27 @@ class _HomePageState extends State<HomePage> {
 
   Widget _header(bool compact) => Row(
     children: [
-      ClipOval(
-        child: Image.network(
-          'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200',
-          width: compact ? 46 : 54,
-          height: compact ? 46 : 54,
-          fit: BoxFit.cover,
-          errorBuilder: (_, _, _) => SizedBox(
+      // FOTO PROFIL: Dibungkus GestureDetector agar bisa diklik ke ProfileScreen
+      GestureDetector(
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const ProfileScreen()),
+          );
+        },
+        child: ClipOval(
+          child: Image.network(
+            'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200',
             width: compact ? 46 : 54,
             height: compact ? 46 : 54,
-            child: const ColoredBox(
-              color: Color(0xffe8f1ed),
-              child: Icon(Icons.person),
+            fit: BoxFit.cover,
+            errorBuilder: (_, _, _) => SizedBox(
+              width: compact ? 46 : 54,
+              height: compact ? 46 : 54,
+              child: const ColoredBox(
+                color: Color(0xffe8f1ed),
+                child: Icon(Icons.person),
+              ),
             ),
           ),
         ),
@@ -148,18 +158,18 @@ class _HomePageState extends State<HomePage> {
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
-                color: Color(0xff171044),
+                color: const Color(0xff171044),
                 fontSize: compact ? 19 : 23,
                 fontWeight: FontWeight.w800,
               ),
             ),
-            SizedBox(height: 3),
+            const SizedBox(height: 3),
             Text(
               'Where do you want to go?',
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
-                color: Color(0xffaaa7c0),
+                color: const Color(0xffaaa7c0),
                 fontSize: compact ? 13 : 16,
                 fontWeight: FontWeight.w600,
               ),
@@ -554,16 +564,29 @@ class _HomePageState extends State<HomePage> {
       ),
     ),
   );
+
   Widget _navIcon(IconData icon, int index) => IconButton(
-    onPressed: () => setState(() => _tab = index),
+    onPressed: () {
+      if (index == 2) {
+        // IKON SETTINGS: Jika indeks 2 diklik, langsung buka ProfileScreen
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const ProfileScreen()),
+        );
+      } else {
+        setState(() => _tab = index);
+      }
+    },
     icon: Icon(
       icon,
       color: _tab == index ? const Color(0xff27aaa5) : const Color(0xffaaa7c0),
       size: 30,
     ),
   );
+
   void _toggleSaved(String id) =>
       setState(() => _saved.contains(id) ? _saved.remove(id) : _saved.add(id));
+
   void _openDetails(Destination place) => Navigator.push(
     context,
     MaterialPageRoute(

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
-import 'home_page.dart';
+import 'package:healingz/screens/login_screen.dart';
 
 class OnboardingPage extends StatelessWidget {
   const OnboardingPage({super.key});
@@ -130,7 +129,7 @@ class OnboardingPage extends StatelessWidget {
                                 onPressed: () => Navigator.pushReplacement(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (_) => const HomePage(),
+                                    builder: (_) => const LoginScreen(),
                                   ),
                                 ),
                                 child: const Text(
@@ -143,19 +142,29 @@ class OnboardingPage extends StatelessWidget {
                               ),
                             ),
                             const SizedBox(height: 20),
-                            const Text.rich(
-                              TextSpan(
-                                text: 'Already have an account? ',
-                                style: TextStyle(color: _navy, fontSize: 15),
-                                children: [
-                                  TextSpan(
-                                    text: 'Sign In',
-                                    style: TextStyle(
-                                      color: _teal,
-                                      fontWeight: FontWeight.w800,
-                                    ),
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => const LoginScreen(),
                                   ),
-                                ],
+                                );
+                              },
+                              child: const Text.rich(
+                                TextSpan(
+                                  text: 'Already have an account? ',
+                                  style: TextStyle(color: _navy, fontSize: 15),
+                                  children: [
+                                    TextSpan(
+                                      text: 'Sign In',
+                                      style: TextStyle(
+                                        color: _teal,
+                                        fontWeight: FontWeight.w800,
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                           ],
